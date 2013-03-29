@@ -1,0 +1,6 @@
+#!/usr/bin/env php
+<?php
+require('../vendor/autoload.php');
+$command = new Polidog\Console\Console($argv);
+$command->addPath(__DIR__.DIRECTORY_SEPARATOR.'Command2/');
+$command->execute();	
