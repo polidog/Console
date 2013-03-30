@@ -24,7 +24,7 @@ abstract class CommandAbstract {
 		$this->__commandList();
 		$this->output('main method end','info');
 	}
-
+	
 
 	public function getActionMethodPrefix() {
 		return $this->actionMehotdPrefix;
@@ -36,6 +36,7 @@ abstract class CommandAbstract {
 	 * @param array $params 
 	 */
 	final public function execute($action, $params = array()) {
+		$this->preFilter();
 		$action = "command" . ucfirst($action);
 		if (method_exists($this, $action)) {
 			if ($this->$action($params,$action) === false) {
@@ -44,7 +45,17 @@ abstract class CommandAbstract {
 		} else {
 			$this->main($params,$action);
 		}
+		$this->postFilter();
 	}
+
+	protected function preFilter() {
+		
+	}
+	
+	protected function postFilter() {
+		
+	}
+
 
 	/**
 	 * コマンドの一覧を表示させる
