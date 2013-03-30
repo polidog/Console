@@ -20,7 +20,9 @@ abstract class CommandAbstract {
 	}
 	
 	public function main() {
+		$this->output('main method start','info');
 		$this->__commandList();
+		$this->output('main method end','info');
 	}
 
 
@@ -36,11 +38,11 @@ abstract class CommandAbstract {
 	final public function execute($action, $params = array()) {
 		$action = "command" . ucfirst($action);
 		if (method_exists($this, $action)) {
-			if ($this->$action($params) === false) {
+			if ($this->$action($params,$action) === false) {
 				$this->error('command action error' . __METHOD__);
 			}
 		} else {
-			$this->main();
+			$this->main($params,$action);
 		}
 	}
 
@@ -118,6 +120,7 @@ abstract class CommandAbstract {
 			throw new Polidog\Console\CommandException($message);
 		} else {
 			$this->output($message, 'error');
+			exit;
 		}
 	}
 

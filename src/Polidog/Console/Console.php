@@ -104,8 +104,9 @@ class Console {
 	 * コマンドを実行する
 	 */
 	public function execute() {
-		if ($this->className == null)
+		if ($this->className == null) {
 			$this->className = 'help';
+		}
 		$command = ucfirst($this->className);
 		$className = $this->getClassname($command);
 		$class = new $className($this->options);
