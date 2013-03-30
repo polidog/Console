@@ -4,14 +4,20 @@ namespace Polidog\Console\Document;
 
 use Polidog\Console\Command\CommandAbstract;
 use Polidog\Console\Exception\ConsoleException;
+use ReflectionMethod;
 
 /**
  * コメント生成クラス
  * PHPDocに記載されている説明からコマンド説明を作成する為のメソッド
+ * 
  * @author polidog <polidogs@gmail.com>
+ * 
+ * @property Polidog\Console\Command\CommandAbstract $targetObject 
+ * 
  */
-class MethodDocument {
-
+class MethodDocument implements DocumentInterface {
+	use ParserTrait;
+	
 	private $targetObject;
 	
 	/**
@@ -28,16 +34,16 @@ class MethodDocument {
 	}
 	
 	public function __toString() {
-		return $this->getMethodCommentString();
+		return $this->getDocumentString();
 	}
 
 	/**
 	 * コメント文字列を取得する
 	 * @return string
 	 */
-	public function getMethodCommentString() {
-		$string = null;
-		foreach ($this->getMethodComment() as $command) {
+	public function getDocumentString() {
+		$string = "";
+		foreach ($this->getDocument() as $command) {
 			if (!empty($command) && isset($command['name'], $command['comment'])) {
 				$string .= "    " . $command['name'] . "\t" . $command['comment'] . "\n";
 			}
@@ -49,7 +55,7 @@ class MethodDocument {
 	 * メソッドコメント一覧の取得
 	 * @return array
 	 */
-	public function getMethodComment() {
+	public function getDocument() {
 		return $this->_getMethodComment($this->targetObject, get_class_methods(get_class($this->targetObject)));
 	}
 
@@ -70,26 +76,9 @@ class MethodDocument {
 			if (substr($methodName, 0, strlen($this->targetObject->getActionMethodPrefix())) != $this->targetObject->getActionMethodPrefix()) {
 				return array();
 			}
-			$refMethod = new \ReflectionMethod($object, $methodName);
+			$refMethod = new ReflectionMethod($object, $methodName);
 			$comment = $this->parseComment($refMethod->getDocComment());
 			return array('name' => str_replace("command", "", strtolower($methodName)), 'comment' => $comment);
 		}
 	}
-
-	/**
-	 * Methodに記載されたPHPDocコメントのパース処理
-	 * @param string $comment
-	 * @return string
-	 */
-	private function parseComment($comment) {
-		if (!$comment) {
-			return "";
-		}
-		$_comment = explode("\n", $comment);
-		if (isset($_comment[1])) {
-			return str_replace(array("\t", "*", "\n", " "), "", $_comment[1]);
-		}
-		return "";
-	}
-
 }

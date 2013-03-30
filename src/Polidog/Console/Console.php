@@ -1,6 +1,7 @@
 <?php
 
 namespace Polidog\Console;
+use Polidog\Console\Exception\ConsoleException;
 
 /**
  * Commandクラス
@@ -14,6 +15,7 @@ class Console {
 	private $paths = array();
 	private $options = array();
 	private $namespace = array();
+	private $classDocument;
 
 	/**
 	 * コンストラクタ
@@ -139,7 +141,11 @@ class Console {
 			}
 			$path->next();
 		}
-		// @todo Exception
+		
+		if (! $isClass) {
+			throw new ConsoleException('class not found');
+		}
+		
 		return $className;
 	}
 
@@ -154,116 +160,4 @@ class Console {
 		}
 		return null;
 	}
-
-//	/**
-//	 * 実行処理
-//	 * @return void
-//	 */
-//	public function execute() {
-//		if (empty($this->action)) {
-//			static::commandList();
-//			return;
-//		}
-//		$command = "Command_" . ucfirst($this->action);
-//
-//		if (!class_exists($command)) {
-//			static::commandList();
-//			return;
-//		}
-//
-//		$class = new $command();
-//		$class->execute($this->className, $this->params);
-//	}
-//
-//	private function loadCommandClass($className) {
-//		if (class_exists($command)) {
-//			return new $command($this->options);
-//		}
-//		
-//	}
-//	
-//	/**
-//	 * コマンド一覧を取得する 
-//	 */
-//	protected function commandList() {
-//		$dir = $this->getCommandPath();
-//		$handle = opendir($dir);
-//		if (!$handle) {
-//			static::error("directory not found");
-//		}
-//
-//		$not_output = array('Abstract.php', '.', '..');
-//		while (false !== ($entry = readdir($handle))) {
-//			if (!in_array($entry, $not_output)) {
-//
-//				$className = "" . str_replace(".php", "", $entry);
-//
-//				$refClass = new ReflectionClass("Command_" . $className);
-//				$comment = static::parseComment($refClass->getDocComment());
-//
-//				echo "  " . strtolower($className) . "\t" . $comment . "\n";
-//			}
-//		}
-//		echo "\n";
-//	}
-//
-//	
-//	
-//	
-//	/**
-//	 * コマンドクラスが格納されているパス
-//	 * @return string
-//	 */
-//	public function getCommandPath() {
-//		if (strpos($this->classNameFilePath, '/') === true) {
-//			return $this->classNameFilePath;
-//		}
-//		return __DIR__.DIRECTORY_SEPARATOR.$this->classNameFilePath;
-//	}
-//	
-//	
-//	/**
-//	 * エラー処理を行う
-//	 * @param string $message 
-//	 * @param string $method　エラーが発生したメソッド名
-//	 */
-//	public static function error($message, $method = null) {
-//		if ($method != null) {
-//			$message = $method . ": " . $message;
-//		}
-//		echo "[error]" . $message . "\n";
-//		die;
-//	}
-//
-//	/**
-//	 * 出力を行う
-//	 * @param string $message 出力メッセージ
-//	 * @param string $prefix  接頭辞
-//	 */
-//	public static function output($message, $prefix = null) {
-//		if ($prefix) {
-//			$message = "[$prefix]" . $message;
-//		}
-//		echo $message . "\n";
-//	}
-//
-//	/**
-//	 * PHPDoc comment parser
-//	 * @param string $comment
-//	 * @return string 
-//	 */
-//	public static function parseComment($comment) {
-//		if (!$comment) {
-//			return "";
-//		}
-//		$_comment = explode("\n", $comment);
-//		if (isset($_comment[1])) {
-//			$_comment[1] = str_replace("\t", "", $_comment[1]);
-//			$_comment[1] = str_replace("*", "", $_comment[1]);
-//			$_comment[1] = str_replace("\n", "", $_comment[1]);
-//			$_comment[1] = str_replace(" ", "", $_comment[1]);
-//			return $_comment[1];
-//		}
-//		return "";
-//	}
 }

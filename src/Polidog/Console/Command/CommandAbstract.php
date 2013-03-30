@@ -18,13 +18,11 @@ abstract class CommandAbstract {
 	public function __construct() {
 		$this->methodDocument = new MethodDocument($this);
 	}
-
-	/**
-	 * コマンドの一覧を表示させる
-	 */
-	final public function commandList() {
-		$this->output($this->methodDocument);
+	
+	public function main() {
+		$this->__commandList();
 	}
+
 
 	public function getActionMethodPrefix() {
 		return $this->actionMehotdPrefix;
@@ -42,10 +40,22 @@ abstract class CommandAbstract {
 				$this->error('command action error' . __METHOD__);
 			}
 		} else {
-			$this->commandList();
+			$this->main();
 		}
 	}
 
+	/**
+	 * コマンドの一覧を表示させる
+	 */
+	protected function __commandList() {
+		$this->output($this->methodDocument);
+	}	
+	
+	/**
+	 * アクションメソッドかどうかの判定
+	 * @param string $methodName
+	 * @return boolean
+	 */
 	protected function isActionMethod($methodName) {
 		return (substr($methodName, 0, 7) === $this->actionMehotdPrefix);
 	}
