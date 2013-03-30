@@ -12,11 +12,32 @@ class String extends CommandAbstract{
 	 * @param array $args
 	 */
 	public function commandBase64($args) {
+		$string = $this->getTargetArg($args);
+		$this->output(base64_encode($string));
+	}
+	
+	/**
+	 * URLエンコードをする
+	 * @param type $args
+	 */
+	public function commandUrlencode($args) {
+		$string = $this->getTargetArg($args);
+		$this->output(urlencode($string));
+	}
+	
+	public function commandUrldecode($args) {
+		$string = $this->getTargetArg($args);
+		$this->output(urldecode($string));
+	}
+	
+	
+	private function getTargetArg($args) {
 		if (!isset($args[0]) || empty($args[0]) ) {
 			$this->error('string not found');
-			return;
 		}
-		$this->output(base64_encode($args[0]));
+		return $args[0];
 	}
+	
+	
 	
 }
