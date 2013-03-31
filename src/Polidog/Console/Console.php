@@ -6,6 +6,11 @@ use Polidog\Console\Exception\ConsoleException;
 /**
  * Commandクラス
  * @author polidog <polidogs@gmail.com>
+ * @property string $className 実行するクラス名
+ * @property string $methodName 実行するメソッド名
+ * @property array $params 引数配列
+ * @property Polidog\Console\Path $path 実行クラスのパス
+ * @property array $options その他設定変数
  */
 class Console {
 
@@ -15,7 +20,6 @@ class Console {
 	private $paths = array();
 	private $options = array();
 	private $namespace = array();
-	private $classDocument;
 
 	/**
 	 * コンストラクタ
@@ -104,8 +108,9 @@ class Console {
 	 * コマンドを実行する
 	 */
 	public function execute() {
-		if ($this->className == null)
+		if ($this->className == null) {
 			$this->className = 'help';
+		}
 		$command = ucfirst($this->className);
 		$className = $this->getClassname($command);
 		$class = new $className($this->options);
