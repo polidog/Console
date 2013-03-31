@@ -14,49 +14,83 @@ abstract class CommandAbstract {
 	protected $isErrorExcption = false;
 	protected $actionMehotdPrefix = 'command';
 	protected $methodDocument;
+	protected $options = array();
 
-	public function __construct() {
+	/**
+	 * コンストラクタ
+	 * @param type $options
+	 */
+	public function __construct($options = array()) {
+		$this->options = $options;
 		$this->methodDocument = new MethodDocument($this);
 	}
 	
-	public function main() {
+	/**
+	 * メインメソッド
+	 * @param array $params
+	 * @param string $action
+	 */
+	public function main($params,$action) {
 		$this->output('main method start','info');
 		$this->__commandList();
 		$this->output('main method end','info');
 	}
 	
-
-	public function getActionMethodPrefix() {
-		return $this->actionMehotdPrefix;
-	}
-
 	/**
 	 * アクション実行メソッド
 	 * @param string $action 
 	 * @param array $params 
 	 */
 	final public function execute($action, $params = array()) {
-		$this->preFilter();
+		$this->preFilter($action,$params);
 		$action = "command" . ucfirst($action);
 		if (method_exists($this, $action)) {
 			if ($this->$action($params,$action) === false) {
 				$this->error('command action error' . __METHOD__);
 			}
 		} else {
-			$this->main($params,$action);
+			$return = $this->main($params,$action);
 		}
-		$this->postFilter();
+		$this->postFilter($action,$return,$params);
 	}
 
-	protected function preFilter() {
+	/**
+	 * executeメソッド実行前フィルタ
+	 * @param string $action
+	 * @param array $params
+	 */
+	protected function preFilter($action,$params) {
 		
 	}
 	
-	protected function postFilter() {
+	/**
+	 * executeメソッド実行後フィルタ
+	 * @param string $action
+	 * @param mixed $return
+	 * @param array $params
+	 */
+	protected function postFilter($action,$return,$params) {
 		
 	}
-
-
+	
+	/**
+	 * 実行するクラスのprefix
+	 * @return string
+	 */
+	public function getActionMethodPrefix() {
+		return $this->actionMehotdPrefix;
+	}
+	
+	/**
+	 * 実行するクラスprefixをセットする
+	 * @param type $prefix
+	 * @return \Polidog\Console\Command\CommandAbstract
+	 */
+	public function setActionMethodPrefix($prefix) {
+		$this->actionMehotdPrefix = $prefix;
+		return $this;
+	}
+	
 	/**
 	 * コマンドの一覧を表示させる
 	 */

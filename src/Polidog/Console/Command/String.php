@@ -18,13 +18,17 @@ class String extends CommandAbstract{
 	
 	/**
 	 * URLエンコードをする
-	 * @param type $args
+	 * @param array $args
 	 */
 	public function commandUrlencode($args) {
 		$string = $this->getTargetArg($args);
 		$this->output(urlencode($string));
 	}
 	
+	/**
+	 * URLデコードする
+	 * @param array $args
+	 */
 	public function commandUrldecode($args) {
 		$string = $this->getTargetArg($args);
 		$this->output(urldecode($string));

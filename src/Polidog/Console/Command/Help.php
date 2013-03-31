@@ -3,7 +3,7 @@ namespace Polidog\Console\Command;
 
 class Help extends CommandAbstract {
 	
-	public function main($args,$action) {
+	public function main($params,$action) {
 		$this->output("command not found:".$action);
 	}
 }
