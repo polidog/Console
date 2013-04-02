@@ -52,6 +52,16 @@ mainメソッドをオーバーライドしなければ、メソッド一覧が�
         unserialize	string　指定したシリアライズされた配列を普通の配列に戻して出力する
         serialize	string　配列なシンタックスの文字列をシリアライズした値に変更する
 
+ちなみに標準で搭載されている、listメソッドを使っても一覧を出す事が出来ます。
+
+    polidog$ ./command string list
+        base64	string　指定した文字列をbase64エンコードする
+        urlencode	string　URLエンコードをする
+        urldecode	string　URLデコードする
+        unserialize	string　指定したシリアライズされた配列を普通の配列に戻して出力する
+        serialize	string　配列なシンタックスの文字列をシリアライズした値に変更する
+
+
 コマンドの拡張の仕方
 ------------
 拡張したいコマンド用クラスはどこに置いてもかまいません。
