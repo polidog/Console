@@ -31,8 +31,15 @@ abstract class CommandAbstract {
 	 * @param string $action
 	 */
 	public function main($params,$action) {
-		$this->__commandList();
+		$this->commandList();
 	}
+	
+	/**
+	 * コマンドの一覧を表示させる
+	 */
+	public function commandList() {
+		$this->output($this->methodDocument);
+	}		
 	
 	/**
 	 * アクション実行メソッド
@@ -86,13 +93,6 @@ abstract class CommandAbstract {
 		$this->actionMehotdPrefix = $prefix;
 		return $this;
 	}
-	
-	/**
-	 * コマンドの一覧を表示させる
-	 */
-	protected function __commandList() {
-		$this->output($this->methodDocument);
-	}	
 	
 	/**
 	 * アクションメソッドかどうかの判定
