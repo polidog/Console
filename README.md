@@ -66,5 +66,6 @@ examplesのcommandファイルには以下のようなコードが記載され�
 で、例えばCommand2/には言ってるTestクラスを呼び出すときには以下のようにすればいいです
 
     ./command test
+    Hello extend command
 
 これだけで、Command2にあるテストクラスが実行されます。
