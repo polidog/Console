@@ -44,10 +44,8 @@ abstract class CommandAbstract {
 	final public function execute($action, $params = array()) {
 		$this->preFilter($action,$params);
 		$action = "command" . ucfirst($action);
-		if (method_exists($this, $action)) {
-			if ($this->$action($params,$action) === false) {
-				$this->error('command action error' . __METHOD__);
-			}
+		if (is_callable(array($this, $action))) {
+			$return = $this->$action($params,$action);
 		} else {
 			$return = $this->main($params,$action);
 		}

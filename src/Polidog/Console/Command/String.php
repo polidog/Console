@@ -34,6 +34,21 @@ class String extends CommandAbstract{
 		$this->output(urldecode($string));
 	}
 	
+	public function commandUnserialize($args) {
+		$sreialize = $this->getTargetArg($args);
+		$array = unserialize($sreialize);
+		print_r($array);
+	}
+	
+	public function commandSerialize($args) {
+		$array = $this->getTargetArg($args);
+		eval('$array = '.$array.";");
+		$serialize = serialize($array);
+		echo $serialize."\n";
+		return null;
+	}
+
+	
 	
 	private function getTargetArg($args) {
 		if (!isset($args[0]) || empty($args[0]) ) {
