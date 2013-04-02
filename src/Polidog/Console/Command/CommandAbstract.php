@@ -31,9 +31,7 @@ abstract class CommandAbstract {
 	 * @param string $action
 	 */
 	public function main($params,$action) {
-		$this->output('main method start','info');
 		$this->__commandList();
-		$this->output('main method end','info');
 	}
 	
 	/**

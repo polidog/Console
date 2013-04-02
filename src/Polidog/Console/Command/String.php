@@ -8,7 +8,7 @@ use Polidog\Console\Command\CommandAbstract;
 class String extends CommandAbstract{
 	
 	/**
-	 * 指定した文字列をbase64エンコードする
+	 * string　指定した文字列をbase64エンコードする
 	 * @param array $args
 	 */
 	public function commandBase64($args) {
@@ -17,7 +17,7 @@ class String extends CommandAbstract{
 	}
 	
 	/**
-	 * URLエンコードをする
+	 * string　URLエンコードをする
 	 * @param array $args
 	 */
 	public function commandUrlencode($args) {
@@ -26,7 +26,7 @@ class String extends CommandAbstract{
 	}
 	
 	/**
-	 * URLデコードする
+	 * string　URLデコードする
 	 * @param array $args
 	 */
 	public function commandUrldecode($args) {
@@ -34,18 +34,25 @@ class String extends CommandAbstract{
 		$this->output(urldecode($string));
 	}
 	
+	/**
+	 * string 　指定したシリアライズされた配列を普通の配列に戻して出力する
+	 * @param type $args
+	 */
 	public function commandUnserialize($args) {
 		$sreialize = $this->getTargetArg($args);
 		$array = unserialize($sreialize);
 		print_r($array);
 	}
 	
+	/**
+	 * string　配列なシンタックスの文字列をシリアライズした値に変更する
+	 * @param type $args
+	 */
 	public function commandSerialize($args) {
 		$array = $this->getTargetArg($args);
 		eval('$array = '.$array.";");
 		$serialize = serialize($array);
 		echo $serialize."\n";
-		return null;
 	}
 
 	
