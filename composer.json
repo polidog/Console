@@ -1,5 +1,5 @@
 {
-	"name": "Polidog/Console",
+	"name": "polidog/console",
 	"description": "PHP Console Library",
 	"keywords" : ["cli","console"],
 	"homepage" : "https://github.com/polidog/Console",
